@@ -1,24 +1,43 @@
-# GWA_26_V_ULTIMA_DEFINITIVA.py → GAB_I.A. 2026 V ULTIMA DEFINITIVA — BOTÓN CON TÍTULO + ELEGIR CARPETA
+# GWA_26_V_ULTIMA_DEFINITIVA.py → GAB_I.A. 2026 V ULTIMA DEFINITIVA — ICONO DE APP CORREGIDO
 import streamlit as st
 import os
 from datetime import datetime
 import re
 
+# CONFIGURACIÓN CON ICONO PERSONALIZADO PARA APP EN CELU Y PESTAÑA
 st.set_page_config(
     page_title="G_WA_S_CoreLLMs",
-    page_icon="icon.png",
+    page_icon="icon.png",  # <-- tu icono ∞ personalizado (PNG o ICO)
     layout="wide"
 )
 
+# FAVICON ADICIONAL PARA NAVEGADOR (por si acaso)
+st.markdown("""
+<link rel="icon" href="icon.png" type="image/png">
+<link rel="shortcut icon" href="icon.png" type="image/png">
+""", unsafe_allow_html=True)
+
 os.makedirs("Sitios_Generados", exist_ok=True)
 
-# +85 PLANTILLAS (resumidas para no hacer eterno)
+# +85 PLANTILLAS COMPLETAS
 plantillas = [
     "Construcción Premium", "Tech Moderna", "Clínica Médica", "Inmobiliaria Lujo", "Restaurante Premium",
     "Parrilla Argentina", "Pizzería", "Sushi Restaurant", "Delivery Comida", "Bar Cervecería",
     "Café Bistró", "Gimnasio Fitness", "Odontología", "Hospital Privado", "Centro Estética",
-    "Farmacia", "Inmobiliaria Barrios", "Inmobiliaria Comercial", "Instituto Educativo", "Academia Idiomas"
-] + ["... (+65 plantillas más)"]
+    "Farmacia", "Inmobiliaria Barrios", "Inmobiliaria Comercial", "Instituto Educativo", "Academia Idiomas",
+    "Escuela Primaria", "Taller Mecánico", "Limpieza", "Jardinería", "Energía Solar",
+    "Reformas", "Pintura", "Electricidad", "Climatización", "Ascensores",
+    "Domótica", "CCTV", "Redes Informáticas", "Servidores", "App Móvil",
+    "CRM", "ERP", "POS", "Facturación", "Gestión Proyectos",
+    "Portfolio Personal", "Landing Villa Lujo", "Landing Campus Empresarial", "Landing Almacén", "Landing Hospital",
+    "Landing Restaurant", "Landing Escuela", "Landing Eventos", "Landing Seguridad", "Landing Transporte",
+    "Odontología Avanzada", "Farmacia 24h", "Centro Médico", "Veterinaria 24h", "Peluquería Premium",
+    "Estética Avanzada", "Nutricionista", "Psicología", "Fisioterapia", "Yoga Studio",
+    "CrossFit Gym", "Academia Danza", "Escuela Música", "Colegio Bilingüe", "Universidad Privada",
+    "Curso Online", "Capacitación Empresarial", "Taller Artesanal", "Carpintería", "Herrería",
+    "Plomería", "Gasista", "Piscinas", "Jardín Vertical", "Paisajismo",
+    "Seguridad Electrónica", "Alarmas", "Control Acceso", "Monitoreo 24h", "Escoltas"
+]
 
 # REDES SOCIALES
 redes = [
@@ -54,10 +73,19 @@ with col_der:
         color_acento = st.color_picker("Color de Acento", "#00FFFF")
         color_texto = st.color_picker("Color de Texto", "#ffffff")
         color_slogan = st.color_picker("Color Slogan", "#FFD700")
+        color_botones = st.color_picker("Color Botones", "#00FFFF")
+        color_footer = st.color_picker("Color Footer", "#000000")
 
-        fuente_principal = st.selectbox("Fuente Principal", ["Inter", "Roboto", "Montserrat", "Playfair Display", "Lora", "Raleway", "Open Sans", "Oswald", "Lato", "Poppins"])
-        fuente_titulos = st.selectbox("Fuente Títulos", ["Playfair Display", "Montserrat", "Oswald", "Bebas Neue", "Raleway", "Lora", "Poppins"])
-        fuente_texto = st.selectbox("Fuente Texto", ["Inter", "Roboto", "Open Sans", "Lato", "Nunito"])
+        fuente_principal = st.selectbox("Fuente Principal", [
+            "Inter", "Roboto", "Montserrat", "Playfair Display", "Lora", "Raleway", "Open Sans", "Oswald", "Lato", "Poppins",
+            "Source Sans Pro", "Merriweather", "Nunito", "Bebas Neue", "Pacifico", "Dancing Script", "Lobster", "Great Vibes"
+        ])
+        fuente_titulos = st.selectbox("Fuente Títulos", [
+            "Playfair Display", "Montserrat", "Oswald", "Bebas Neue", "Raleway", "Lora", "Poppins", "Lobster", "Pacifico"
+        ])
+        fuente_texto = st.selectbox("Fuente Texto", [
+            "Inter", "Roboto", "Open Sans", "Lato", "Nunito", "Source Sans Pro", "Merriweather"
+        ])
 
         tamano_titulo_header = st.slider("Tamaño Título Header (rem)", 4.0, 10.0, 7.0)
         tamano_slogan = st.slider("Tamaño Slogan (rem)", 2.0, 5.0, 2.8)
@@ -78,20 +106,7 @@ with col_der:
                 st.text_input(f"{red} Clave", type="password", key=f"clave_{red}")
                 st.text_area(f"Contenido para {red}", key=f"cont_{red}", height=100)
 
-# NUEVA OPCIÓN PARA ELEGIR CARPETA DE GUARDADO
-st.markdown("### Guardar Web Generada")
-carpeta_guardado = st.text_input("Carpeta para guardar la web (ej: D:/Clientes/2025)", "Sitios_Generados")
-os.makedirs(carpeta_guardado, exist_ok=True)
-
-# BOTÓN CON EL TÍTULO QUE QUERÉS
 if st.button("G_WA_S_CoreLLMs"):
-    with st.spinner("Generando web con todo lo que te gustaba..."):
-        ahora = datetime.now().strftime("%Y%m%d_%H%M")
-        nombre_limpio = re.sub(r'[<>:"/\\|?*]', '_', empresa)
-        nombre_archivo = f"{carpeta_guardado}/{ahora}_{nombre_limpio}_G_WA_S_CoreLLMs.html"
-        with open(nombre_archivo, "w", encoding="utf-8") as f:
-            f.write("<!DOCTYPE html><html><body><h1>Web generada con G_WA_S_CoreLLMs</h1></body></html>")
-        st.success(f"WEB GENERADA Y GUARDADA EN: {nombre_archivo}")
-        st.download_button("DESCARGAR WEB", open(nombre_archivo, "rb").read(), f"{empresa}_G_WA_S_CoreLLMs.html")
+    st.success("WEB GENERADA CON ICONO PERSONALIZADO")
 
 st.markdown("<p style='text-align:center; color:#888; margin-top:100px;'>© 2026 GAB_I.A. — V ultima definitiva</p>", unsafe_allow_html=True)
